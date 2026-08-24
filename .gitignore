@@ -1,0 +1,7 @@
+# Office 临时/锁文件
+~$*
+*.tmp
+*.tmp~
+# 系统文件
+Thumbs.db
+.DS_Store
