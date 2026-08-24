@@ -1,5 +1,5 @@
 <#
-  sync-memory.ps1 — 短剧创作助手记忆库的 Git 云端同步脚本
+  sync-memory.ps1 — 短剧导演记忆库的 Git 云端同步脚本
   用法（在记忆库目录内，或在任意位置执行）：
     .\sync-memory.ps1            # 同步：先拉取，有改动则提交并推送
     .\sync-memory.ps1 pull       # 只拉取远端

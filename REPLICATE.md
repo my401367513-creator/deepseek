@@ -1,7 +1,7 @@
-# 短剧创作助手 · 完整复刻教程（REPLICATE）
+# 短剧导演 · 完整复刻教程（REPLICATE）
 
 > 本文件是本仓库的**自我复刻套件**：`本文件 + replicate/ 目录` 就是完整的复制包。
-> 新设备、或新的 Agent 实例，拿到本仓库后按本教程逐步执行，即可 1:1 复刻「短剧创作助手」：
+> 新设备、或新的 Agent 实例，拿到本仓库后按本教程逐步执行，即可 1:1 复刻「短剧导演」：
 > ① Agent 预设（人设 / 技能 / 记忆协议） ② 血蓝条插件（上下文 + DeepSeek 余额，应用启动自动装载） ③ 记忆库本体（就是本仓库）。
 >
 > 适用对象：具备文件读写、PowerShell 执行能力的 Agent。所有命令用 PowerShell 语法。
@@ -29,7 +29,7 @@ $DSH_APP_ROOT = $env:DSH_APP_ROOT   # 可自行设为实际路径，如 "D:\...\
 - profile 根：`<DSH_HOME>\profiles\web\`（插件包装载位置）
 - 工作区：Agent 会话的工作目录（记忆库默认放这里）
 
-## 2. 复刻 Agent 预设「短剧创作助手」
+## 2. 复刻 Agent 预设「短剧导演」
 
 ### 2.1 放置文件
 
@@ -67,7 +67,7 @@ return {
 }
 ```
 
-方式 B（无 cordis 工具时）：确认文件齐全（含 `skills\short-drama-production\SKILL.md`），并请用户在新建会话的 Agent 选择器里能看到「短剧创作助手」。
+方式 B（无 cordis 工具时）：确认文件齐全（含 `skills\short-drama-production\SKILL.md`），并请用户在新建会话的 Agent 选择器里能看到「短剧导演」。
 
 ## 3. 复刻血蓝条插件（应用启动自动装载）
 
@@ -150,7 +150,7 @@ git clone <仓库地址> short-drama-memory
 
 | 症状 | 原因 / 处理 |
 |---|---|
-| 选择器里没有「短剧创作助手」 | 预设放错根：必须放 `<DSH_HOME>\.agent-presets\`，桌面版不读 `~\.dsh` |
+| 选择器里没有「短剧导演」 | 预设放错根：必须放 `<DSH_HOME>\.agent-presets\`，桌面版不读 `~\.dsh` |
 | 预设挂载报 realm/service 错误 | 复制时改动了行结构；用仓库里的原文件整体覆盖 |
 | 重启后没有血蓝条 | 检查 bundles 列表；确认 `dsh plugin` 执行成功；完全退出应用再启动 |
 | `dsh plugin` 报 pnpm 找不到 | 垫片目录没加进 PATH，或 `DSH_APP_ROOT` 未设置 |
