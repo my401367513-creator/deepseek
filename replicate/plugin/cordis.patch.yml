@@ -1,0 +1,7 @@
+# dsh-hpmp-meters bundle patch: inserts the HP/MP meter rows into the web
+# profile composition. Applied as ONE insert over the profile root; later
+# user patches may address the row by id.
+
+- insert:
+    - id: hpmp-meters
+      name: dsh-hpmp-meters

@@ -1,0 +1,30 @@
+{
+  "name": "dsh-hpmp-meters",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Composer dock HP/MP meters: red bar = remaining context tokens, blue bar = DeepSeek account balance. Auto-loads at app boot as a web-profile bundle.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime"
+      ],
+      "platform": "web"
+    }
+  },
+  "license": "MIT"
+}

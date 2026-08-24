@@ -24,3 +24,8 @@
 - `prompt-templates.md` — Seedance 2.0 提示词模板与经验
 - `lessons.md` — 经验教训（自我提升）
 - `projects/` — 每项目一份完整档案
+
+## 自我复刻套件
+
+- `REPLICATE.md` — 完整复刻教程：把「短剧创作助手」预设 + 血蓝条插件 + 记忆库搬到新设备/新 Agent。
+- `replicate/` — 预设与插件的原始文件副本（修改预设/插件后记得把新文件复制回来并提交）。
