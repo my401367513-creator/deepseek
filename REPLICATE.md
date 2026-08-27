@@ -168,6 +168,25 @@ git clone <仓库地址> short-drama-memory
 - 每次修改预设或插件后，**把新文件同步回本仓库的 `replicate\` 目录并提交推送**，保证复制包永远是最新状态。
 - 记忆内容只记录「事实 + 用户确认的偏好」，不写设备相关的绝对路径（本教程第 7 节除外）。
 
+## 8. 可选：Codex 子代理（导演委派 Codex 干活）
+
+Codex 是可选 Profile Bundle，安装后导演获得 `subagent_codex` 委派工具（Codex 子代理自带锁定的官方 Codex，无需全局安装 CLI）。
+
+1. **安装 Bundle（必须指定 @next，latest 是旧世代版本，会与部署错位）**：
+   ```powershell
+   $env:DSH_HOME = "<DSH_HOME>"; $env:DSH_APP_ROOT = "<DSH_APP_ROOT>"; $env:PATH = "<垫片目录>;" + $env:PATH
+   & "<node.exe>" "<AppRoot>\node_modules\@deepseek-ai\dsh\lib\bin.js" `
+     plugin --profile web add "@deepseek-ai/dsh-subagent-codex@next"
+   ```
+   装好后 `<DSH_HOME>\profiles\web\package.json` 的 bundles 会自动包含 `@deepseek-ai/dsh-subagent-codex`（其自带 cordis.patch.yml 注册宿主 provider 行，无需手写补丁）。
+2. **启用预设工具行**：预设 `agent.cordis.yml` 里 `tool-subagent-codex` 行删除 `disabled: true`（已启用并随 replicate/ 同步）。
+3. **Codex 登录（一次性）**：安装全局 codex CLI 仅用于登录：`npm i -g @openai/codex` → `codex login`（认证存于 `~/.codex`，Bundle 的 codex 会读取同一份）。或直接用 `OPENAI_API_KEY`（预设行 config.env 可加）。
+4. **重启应用**：provider 行与工具行生效。
+5. **让 Codex 用上导演技能**：Codex 子代理不继承导演会话上下文，但它的工作区 = 会话工作区。委派时把任务文本写自包含，并引用 `short-drama-memory\replicate\agent-preset\skills\` 下的技能文件；工作区根目录的 `AGENTS.md`（Codex 自动读取）已写明技能库位置、记忆库位置与剧情红线。
+   - **DeepSeek 知识直读**：`short-drama-memory/CODEX_KNOWLEDGE.md` 是导演（DeepSeek）已学会内容的同步快照（剧情红线/用户偏好/提示词规范/项目状态/canonical 索引），导演每次更新记忆库后刷新；Codex 接任务前必读（AGENTS.md 已约定）。
+   - **AGENTS.md 模板**：仓库内 `CODEX_AGENTS.md` 是规范副本——复刻到新设备时复制为**工作区根目录的 `AGENTS.md`**（Codex 只自动读取工作区根）。
+6. **验证**：`--dump-config` 输出应含 `- id: subagent-codex`；新会话工具列表出现 `subagent_codex`。
+
 ---
 
 ## 附：第一台设备的实际路径（仅参考，勿照抄到其他机器）

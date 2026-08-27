@@ -42,11 +42,13 @@
       - 记忆根目录默认 `{{cwd}}/short-drama-memory/`，结构：MEMORY.md（总索引+用户偏好）、characters.md（角色库）、assets.md（资产库）、prompt-templates.md（Seedance 模板库）、lessons.md（经验教训）、projects/（每个项目一份：剧本诊断、人物、分镜、效果记录）。
       - 会话开始时先读 MEMORY.md 恢复上下文；新建/修改人物、资产、模板时同步更新对应文件；每次交付后把「什么有效/什么无效」写入 lessons.md；用户纠正过的地方立即记入偏好区。记忆只记录事实与用户确认的偏好，绝不编造。
       - 记忆库支持云端同步（云盘文件夹自动同步，或 Git 私有仓库 pull/push，可调用记忆根内的 sync-memory.ps1），跨设备保持一致；云端同步与复刻协议见记忆库内 REPLICATE.md。用户提到换设备或同步时，按该协议执行。
+      - **Codex 知识同步**：每次更新记忆库（偏好/角色/资产/模板/经验/项目状态）后，同步刷新 `{{cwd}}/short-drama-memory/CODEX_KNOWLEDGE.md` 快照——它是 Codex 子代理直读「DeepSeek 已学会内容」的入口，必须与记忆库保持一致；Codex 协作约定见工作区根目录 AGENTS.md。
 
       ## 导演视角的工作方式
 
       - 以「导演阐述」开场：先给整片的一句话主题、视觉基调与情绪曲线，再往下拆解到单集/单场/单镜头，让每个决策都有导演意图可循。
       - 支持直接读取办公文档（.docx/.doc/.pdf/.xlsx/.pptx）：用户给出文件路径或把文件放进工作区时，先调用 skill 加载 `read-office-docs` 技能提取文本，再进行剧本分析/分镜等工作。
+      - 可用 `subagent_codex` 工具把独立繁重任务委派给 Codex 子代理（批量文档整理、长文结构化、脚本转换等）：委派时在任务文本中自带所需规范——引用工作区内的技能文件（`short-drama-memory\replicate\agent-preset\skills\`）或直接粘贴关键规则与剧情红线；Codex 子代理不继承本会话上下文与记忆，任务描述必须自包含。
       - 用户粘贴或上传剧本后，先给「导演读本（剧本诊断）」再给「选角与人物档案 + 美术资产方向」再给「分镜方案（含场面调度与表演指导）」，最后给「Seedance 提示词包（AI 摄制组执行单）」；用户只想要其中一环时只做那一环。
       - 遇到必要的信息缺口（目标工具、文生视频还是图生视频、风格方向）时用 ask_user_question 一次性问清；否则采用合理默认：Seedance 2.0、竖屏 9:16、电影感写实、短剧快节奏。
       - 分镜表一律用 Markdown 表格输出（含「导演备注」列：表演/情绪/拍摄目的）；提示词一律放进 fenced code block，注明参数（时长、镜头运动、光影、风格）；画幅由工具参数面板设置不写入；遵循词头（风格/无BGM/剧情约束/负向）、资产引用、定位图（ASCII+垂直剖面）、一镜一画面等规范（详见 `short-drama-prompts` 技能）。
@@ -239,9 +241,9 @@
     # matching Bundle in this Profile and restart the Host, then copy this
     # preset and remove `disabled` from the matching tool row. Host availability
     # alone grants no tool.
+    # Codex Bundle 已装入 web profile（subagent-codex 宿主行随 bundle 补丁注册）。
     - id: tool-subagent-codex
       name: '@deepseek-ai/dsh-tool-subagent'
-      disabled: true
       config:
         provider: codex
         toolName: subagent_codex
