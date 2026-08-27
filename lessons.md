@@ -1,5 +1,11 @@
 # 经验教训（Lessons）
 
+## 2026-本会话 · v3.0 技能体系全面采用
+
+- 用户提供仓库 `codex-short-drama-director`（v3.0.0），选择「全面采用 3.0 行为」：总控技能 short-drama-director + 三技能模块化 references + scripts（validate/install/sync）+ 38 项交付检查。
+- 关键行为变更：不输出 canonical（参考图/音频为最高依据）、单镜默认 ≤4s（超 4s 导演确认）、画面全部硬切、无 BGM、人设「导演/小猪」、旁白不进模型/对白由画面生成。
+- 已执行：替换自身预设与复刻套件三技能+新增总控、复制 scripts、重写 CODEX_KNOWLEDGE.md 快照、同步 AGENTS.md（工作区根+记忆库 CODEX_AGENTS.md）、更新 MEMORY 偏好声明。原 deepseek 仓库已 push；新仓库只读未改。
+
 ## 2026-本会话 · 技能架构与规范演进
 
 ### 技能架构

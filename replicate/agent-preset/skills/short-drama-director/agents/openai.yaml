@@ -1,0 +1,4 @@
+interface:
+  display_name: "Short Drama Director"
+  short_description: "按需统筹短剧剧本分析、资产管理与视频提示词制作流程"
+  default_prompt: "使用 $short-drama-director 读取当前项目并完成下一步短剧制作任务。"
