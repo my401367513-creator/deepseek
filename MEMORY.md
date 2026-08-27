@@ -26,7 +26,7 @@
 
 ## 项目清单
 
-- **被转让的网恋女友**：进行中（诊断 ✅ / 人物 ✅ / 资产 ✅ / 第 21 集提示词 ✅，22–25 集暂定；25 集原剧本固定不动）。女频网恋复仇×双向救赎；关键角色：妮娜·戈麦斯、塞巴斯蒂安·蒙特内格罗、埃斯特班·贝尼特斯、卡米拉·科尔特斯（见 characters.md）；关键资产：聚餐包间/格斗馆/暴雨街道/手机群聊等（见 assets.md）。剧本提取件：`被转让的网恋女友-西语-提取.md`。
+- **被转让的网恋女友**：进行中（诊断 ✅ / 人物 ✅ / 资产 ✅ / 第 21 集提示词 ✅，22–25 集暂定；25 集原剧本固定不动）。**项目数据全部在独立项目目录**：`projects/被转让的网恋女友/`（剧本 docx/提取件、项目档案、人物、资产、各版提示词稿），通用仓库不存项目数据。
 
 ## 经验速览（详见 lessons.md）
 
@@ -36,13 +36,17 @@
 - 女主爽剧注意给女主加「赢家姿态」微动作镜头，避免全片渣男视角。
 - 技能架构（2026-本会话起）：短剧生产拆为三技能——`short-drama-script-analysis`（剧本/人物）、`short-drama-assets`（资产）、`short-drama-prompts`（提示词）；原总技能已删。按工作台加载对应技能。
 
-## 记忆库结构
+## 记忆库结构（通用仓库：只存技能与规范）
 
-- `characters.md` — 角色档案库（含 Seedance 一致性 canonical 描述词）
-- `assets.md` — 资产库（场景/道具/服装/风格资产卡）
-- `prompt-templates.md` — Seedance 2.0 提示词模板与经验
-- `lessons.md` — 经验教训（自我提升）
-- `projects/` — 每项目一份完整档案（按 `projects/_TEMPLATE.md` 模板建档：模块地图 + 剧本诊断、人物、资产、分镜、效果记录）
+- `replicate/agent-preset/skills/` — 技能（总控 + 三技能 + references 子库 + read-office-docs）
+- `scripts/` — validate.ps1 / install.ps1 / sync.ps1
+- `CODEX_KNOWLEDGE.md` — 知识快照（Codex 直读）
+- `CODEX_AGENTS.md` — Codex 协作指引（与工作区 AGENTS.md 同步）
+- `prompt-templates.md` — 提示词模板（通用）
+- `lessons.md` — 经验教训（通用，自我提升）
+- `projects/_TEMPLATE.md` — 项目档案模板（通用，新项目建档用）
+- `REPLICATE.md` / `replicate/` — 自我复刻套件
+- **项目数据（剧本/人物/资产/提示词/结论）只存各自独立项目目录 `projects/<项目名>/`，互不干扰，不进通用仓库**
 
 ## 自我复刻套件
 
