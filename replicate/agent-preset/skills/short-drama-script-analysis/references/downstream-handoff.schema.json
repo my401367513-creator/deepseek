@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "short-drama-handoff.schema.json",
+  "title": "Short drama analysis downstream handoff",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "source_script",
+    "analysis_status",
+    "global_model",
+    "scenes",
+    "facts",
+    "issues",
+    "assumptions",
+    "confirmed_actions",
+    "routes"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "source_script": {
+      "type": "object",
+      "required": ["path", "version", "scope", "evidence_locator"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "evidence_locator": { "type": "string", "minLength": 1 }
+      }
+    },
+    "analysis_status": { "enum": ["candidate", "approved"] },
+    "global_model": {
+      "type": "object",
+      "required": ["causal_chain", "information_reveals", "emotion_curve", "relationship_changes", "timeline", "locations", "prop_states"],
+      "properties": {
+        "causal_chain": { "type": "array" },
+        "information_reveals": { "type": "array" },
+        "emotion_curve": { "type": "array" },
+        "relationship_changes": { "type": "array" },
+        "timeline": { "type": "array" },
+        "locations": { "type": "array" },
+        "prop_states": { "type": "array" }
+      }
+    },
+    "scenes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["scene_id", "source_range", "dramatic_beats", "entry_state", "exit_state", "facts", "issues", "assumptions"],
+        "properties": {
+          "scene_id": { "$ref": "#/$defs/stableId" },
+          "source_range": { "type": "string", "minLength": 1 },
+          "dramatic_beats": { "type": "array" },
+          "entry_state": { "type": "object" },
+          "exit_state": { "type": "object" },
+          "facts": { "type": "array", "items": { "$ref": "#/$defs/stableId" } },
+          "issues": { "type": "array", "items": { "$ref": "#/$defs/stableId" } },
+          "assumptions": { "type": "array", "items": { "$ref": "#/$defs/stableId" } }
+        }
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim", "evidence_level", "source", "status"],
+        "properties": {
+          "id": { "$ref": "#/$defs/stableId" },
+          "claim": { "type": "string", "minLength": 1 },
+          "evidence_level": { "enum": ["原文明示", "前后文可唯一推出", "导演确认", "临时工作假设", "分析判断"] },
+          "source": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "minLength": 1 },
+          "promoted_from_assumption_id": { "$ref": "#/$defs/stableId" }
+        }
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "status", "affected_ids", "allowed_direction", "forbidden_changes"],
+        "properties": {
+          "id": { "$ref": "#/$defs/stableId" },
+          "severity": { "enum": ["阻断", "严重", "一般", "优化"] },
+          "status": { "enum": ["仅诊断，禁止实施", "待导演确认", "导演已确认，可实施", "已由下游处理，待复核", "已复核关闭"] },
+          "affected_ids": { "type": "array", "items": { "$ref": "#/$defs/stableId" } },
+          "allowed_direction": { "type": "string" },
+          "forbidden_changes": { "type": "array" }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim", "evidence", "rejected_alternatives", "affected_ids", "invalidation_conditions", "status", "confirmation"],
+        "properties": {
+          "id": { "$ref": "#/$defs/stableId" },
+          "claim": { "type": "string", "minLength": 1 },
+          "evidence": { "type": "array" },
+          "rejected_alternatives": { "type": "array" },
+          "affected_ids": { "type": "array", "items": { "$ref": "#/$defs/stableId" } },
+          "invalidation_conditions": { "type": "array" },
+          "status": { "enum": ["temporary", "superseded"] },
+          "confirmation": {
+            "type": "object",
+            "required": ["record", "date", "scope", "promoted_fact_id"],
+            "properties": {
+              "record": { "type": "string" },
+              "date": { "type": "string" },
+              "scope": { "type": "string" },
+              "promoted_fact_id": { "$ref": "#/$defs/stableId" }
+            }
+          }
+        }
+      }
+    },
+    "confirmed_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "action", "scope"],
+        "properties": {
+          "id": { "$ref": "#/$defs/stableId" },
+          "action": { "type": "string", "minLength": 1 },
+          "scope": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "routes": {
+      "type": "object",
+      "required": ["short-drama-story-writing", "short-drama-assets", "short-drama-prompts", "short-drama-image-design"],
+      "properties": {
+        "short-drama-story-writing": { "$ref": "#/$defs/route" },
+        "short-drama-assets": { "$ref": "#/$defs/route" },
+        "short-drama-prompts": { "$ref": "#/$defs/route" },
+        "short-drama-image-design": { "$ref": "#/$defs/route" }
+      }
+    }
+  },
+  "$defs": {
+    "stableId": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$",
+      "minLength": 2,
+      "maxLength": 64
+    },
+    "route": {
+      "type": "object",
+      "required": ["fact_ids", "issue_ids", "assumption_ids_candidate_only", "confirmed_action_ids"],
+      "properties": {
+        "fact_ids": { "type": "array", "items": { "$ref": "#/$defs/stableId" } },
+        "issue_ids": { "type": "array", "items": { "$ref": "#/$defs/stableId" } },
+        "assumption_ids_candidate_only": { "type": "array", "items": { "$ref": "#/$defs/stableId" } },
+        "confirmed_action_ids": { "type": "array", "items": { "$ref": "#/$defs/stableId" } }
+      }
+    }
+  }
+}

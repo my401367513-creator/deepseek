@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "source_script": {
+    "path": "episode-01.md",
+    "version": "sha256:example",
+    "scope": "第1集",
+    "evidence_locator": "原文第1段"
+  },
+  "analysis_status": "approved",
+  "global_model": {
+    "causal_chain": [],
+    "information_reveals": [],
+    "emotion_curve": [],
+    "relationship_changes": [],
+    "timeline": [],
+    "locations": [],
+    "prop_states": []
+  },
+  "scenes": [],
+  "facts": [],
+  "issues": [],
+  "assumptions": [
+    {
+      "id": "assumption-001",
+      "claim": "待核实",
+      "evidence": [],
+      "rejected_alternatives": [],
+      "affected_ids": [],
+      "invalidation_conditions": [],
+      "status": "temporary",
+      "confirmation": {
+        "record": "",
+        "date": "",
+        "scope": "",
+        "promoted_fact_id": ""
+      }
+    }
+  ],
+  "confirmed_actions": [],
+  "routes": {
+    "short-drama-story-writing": {
+      "fact_ids": ["assumption-001"],
+      "issue_ids": [],
+      "assumption_ids_candidate_only": [],
+      "confirmed_action_ids": []
+    },
+    "short-drama-assets": {
+      "fact_ids": [],
+      "issue_ids": [],
+      "assumption_ids_candidate_only": [],
+      "confirmed_action_ids": []
+    },
+    "short-drama-prompts": {
+      "fact_ids": [],
+      "issue_ids": [],
+      "assumption_ids_candidate_only": [],
+      "confirmed_action_ids": []
+    },
+    "short-drama-image-design": {
+      "fact_ids": [],
+      "issue_ids": [],
+      "assumption_ids_candidate_only": [],
+      "confirmed_action_ids": []
+    }
+  }
+}

@@ -51,8 +51,10 @@ if (-not $AllowCustomTarget -and -not $TargetRoot.Equals($defaultTargetRoot, [Sy
 $skillNames = @(
   'short-drama-director',
   'short-drama-script-analysis',
+  'short-drama-story-writing',
   'short-drama-assets',
-  'short-drama-prompts'
+  'short-drama-prompts',
+  'short-drama-image-design'
 )
 & (Join-Path $PSScriptRoot 'validate.ps1') -SkillsRoot $sourceRoot
 
@@ -156,4 +158,4 @@ if (Test-Path -LiteralPath $runRoot) {
   Remove-Item -LiteralPath $resolved -Recurse -Force
 }
 
-Write-Host "[install] Installed and hash-verified 3.0 skills: $TargetRoot"
+Write-Host "[install] Installed and hash-verified short-drama skills: $TargetRoot"

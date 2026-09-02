@@ -40,15 +40,18 @@ $DSH_APP_ROOT = $env:DSH_APP_ROOT   # 可自行设为实际路径，如 "D:\...\
 ├── agent.cordis.yml
 ├── preset.yml
 └── skills\
-    ├── short-drama-script-analysis\SKILL.md   # 剧本诊断 + 人物档案分析
+    ├── short-drama-director\SKILL.md          # 中心路由（跨阶段约束）
+    ├── short-drama-script-analysis\SKILL.md   # 剧本诊断 + 人物档案 + 下游交接
+    ├── short-drama-story-writing\SKILL.md     # 剧情故事化
     ├── short-drama-assets\SKILL.md            # 资产需求分析（资产库设计）
-    ├── short-drama-prompts\SKILL.md           # 提示词生成（Seedance 2.0 规范）
+    ├── short-drama-prompts\SKILL.md           # 分镜 / 提示词生成（Seedance 2.0 规范）
+    ├── short-drama-image-design\SKILL.md      # 剧情图 / 海报 / 角色与场景视觉
     └── read-office-docs\SKILL.md              # Word/PDF/Excel/PPT 文档读取
 ```
 
 `agent.cordis.yml` 是完整组合：人设（六大能力 + Seedance 2.0 + 强记忆协议）、fs/shell/jobs/skill/goal/plan/compaction/delegation 等工具行、`skill-filesystem` 的 `customSkillDirs` 指向预设内 `skills/`。**不要改动行的 realm 结构**，直接整体复制。
 
-> 技能架构说明：短剧生产拆为三个独立技能——剧本人物分析（short-drama-script-analysis）、资产需求分析（short-drama-assets）、提示词生成（short-drama-prompts），各自内含「记忆库读写」章节（记忆根解析、负责写入的文件、纠正纪律）。记忆根解析规则三技能一致：`SHORT_DRAMA_MEMORY` 环境变量优先，否则 `<工作区>\short-drama-memory\`。另有辅助技能 `read-office-docs`（Word/PDF/Excel/PPT 文档读取），剧本分析前按需加载（剧本常以 .docx/.pdf 文件形式提供）。
+> 技能架构说明：短剧生产拆为六个技能——中心路由 short-drama-director、剧本人物分析 short-drama-script-analysis、剧情故事化 short-drama-story-writing、资产需求分析 short-drama-assets、提示词生成 short-drama-prompts、制图 short-drama-image-design，各自内含「记忆库读写」章节（记忆根解析、负责写入的文件、纠正纪律）。记忆根解析规则各技能一致：`SHORT_DRAMA_MEMORY` 环境变量优先，否则 `<工作区>\short-drama-memory\`。另有辅助技能 `read-office-docs`（Word/PDF/Excel/PPT 文档读取），剧本分析前按需加载（剧本常以 .docx/.pdf 文件形式提供）。
 
 ### 2.2 校验挂载
 
@@ -145,7 +148,7 @@ git clone <仓库地址> short-drama-memory
 
 ## 5. 完成后核对清单
 
-- [ ] `<DSH_HOME>\.agent-presets\short-drama\` 配置与三个技能目录齐全（short-drama-script-analysis / short-drama-assets / short-drama-prompts），preset_check → `mounted OK`
+- [ ] `<DSH_HOME>\.agent-presets\short-drama\` 配置与六个技能目录齐全（short-drama-director / short-drama-script-analysis / short-drama-story-writing / short-drama-assets / short-drama-prompts / short-drama-image-design），preset_check → `mounted OK`
 - [ ] `<DSH_HOME>\profiles\web\package.json` 的 bundles 含 `dsh-hpmp-meters`
 - [ ] `--dump-config` 输出含 `- id: hpmp-meters`
 - [ ] 重启应用后输入框下有血条/蓝条

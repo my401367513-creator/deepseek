@@ -25,9 +25,17 @@ function Reset-Staging([string[]]$Paths) {
 function Test-AllowedRepositoryPath([string]$Path, [switch]$AllowLegacy) {
   $normalized = $Path.Replace('\', '/')
   if ($normalized -match '^(\.gitignore|AGENTS\.md|README\.md|VERSION)$') { return $true }
+  if ($normalized -match '^docs/agents/(domain|issue-tracker|triage-labels)\.md$') { return $true }
   if ($normalized -match '^scripts/(install|sync|validate)\.ps1$') { return $true }
-  if ($normalized -match '^skills/(short-drama-director|short-drama-script-analysis|short-drama-assets|short-drama-prompts)/(SKILL\.md|agents/openai\.yaml)$') { return $true }
+  if ($normalized -match '^skills/(short-drama-director|short-drama-script-analysis|short-drama-story-writing|short-drama-assets|short-drama-prompts|short-drama-image-design)/(SKILL\.md|agents/openai\.yaml)$') { return $true }
+  if ($normalized -match '^skills/(short-drama-script-analysis|short-drama-story-writing)/references/quality/[a-z0-9][a-z0-9-]*\.md$') { return $true }
+  if ($normalized -match '^skills/short-drama-director/references/[a-z0-9][a-z0-9-]*\.md$') { return $true }
+  if ($normalized -match '^skills/short-drama-script-analysis/references/(analysis-workflow|commercial-observation|downstream-handoff)\.md$') { return $true }
+  if ($normalized -match '^skills/short-drama-script-analysis/references/downstream-handoff\.schema\.json$') { return $true }
+  if ($normalized -match '^skills/short-drama-script-analysis/references/fixtures/[a-z0-9][a-z0-9-]*\.json$') { return $true }
+  if ($normalized -match '^skills/short-drama-assets/references/quality/[a-z0-9][a-z0-9-]*\.md$') { return $true }
   if ($normalized -match '^skills/short-drama-prompts/references/(modules|templates|adapters|libraries|quality|maintenance)/[a-z0-9][a-z0-9-]*\.md$') { return $true }
+  if ($normalized -match '^skills/short-drama-image-design/references/(quality/)?[a-z0-9][a-z0-9-]*\.md$') { return $true }
 
   $legacyPromptFiles = '^skills/short-drama-prompts/references/(delivery-checklist|director-compact-format|lighting-library|seedance|shot-library)\.md$'
   return $AllowLegacy -and $normalized -match $legacyPromptFiles
@@ -91,8 +99,12 @@ function Test-GitObjectPrivacy([object[]]$Entries, [string]$Revision = '') {
     if ($content.Contains([char]0)) {
       $violations.Add("NUL byte detected: $($entry.Path)")
     }
-    if ($content -match '(?i)(?:[A-Z]:[\\/](?:Users|Documents and Settings)[\\/]|/(?:Users|home)/[^/\s]+/)') {
-      $violations.Add("Personal absolute path detected: $($entry.Path)")
+    $windowsAbsolutePath = '(?i)\b[A-Z]:[\\/](?:[^\\/\s<>:"''|?*]+[\\/])*[^\\/\s<>:"''|?*]+'
+    $pathSeparator = [char]92
+    $uncAbsolutePath = "(?i)${pathSeparator}${pathSeparator}[^\\/\s<>:|?*]+[\\/][^\r\n\s<>:|?*]+"
+    $unixAbsolutePath = '(?i)(?<![\w:])/(?:Users|home|opt|srv|var|tmp|mnt|workspace|project|etc|usr|root|private|data|app|work)(?:/[^/\s<>:"''|?]+)+'
+    if ($content -match "(?:$windowsAbsolutePath|$uncAbsolutePath|$unixAbsolutePath)") {
+      $violations.Add("Absolute path detected: $($entry.Path)")
     }
     if ($content -match '(?i)data:(?:image|audio|video)/[^;\s]+;base64,') {
       $violations.Add("Embedded media payload detected: $($entry.Path)")
@@ -261,13 +273,13 @@ if ([string]::IsNullOrWhiteSpace($changes)) {
   Write-Host '[sync] No changes to commit.'
   Assert-HeadTree
   Assert-WorkingSkillsMatchHead
-  Invoke-Git @('push','origin','main:main')
   & (Join-Path $PSScriptRoot 'install.ps1')
+  Invoke-Git @('push','origin','main:main')
   Publish-Tag $Tag
   exit 0
 }
 
-Invoke-Git @('add','-A','--','.gitignore','AGENTS.md','README.md','VERSION','scripts','skills')
+Invoke-Git @('add','-A','--','.gitignore','AGENTS.md','README.md','VERSION','docs','scripts','skills')
 $stagedLines = @(& git -C $repoRoot diff --cached --name-status --no-renames)
 if ($LASTEXITCODE -ne 0) { throw 'git diff --cached failed' }
 if ($stagedLines.Count -eq 0) {
@@ -297,6 +309,7 @@ if ($privacyViolations.Count -gt 0) {
   Reset-Staging $stagedPaths
   throw "Privacy scan blocked cloud sync: $($privacyViolations -join ' | ')"
 }
+& (Join-Path $PSScriptRoot 'install.ps1')
 $expectedTree = (& git -C $repoRoot write-tree).Trim()
 if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($expectedTree)) {
   Reset-Staging $stagedPaths
@@ -323,5 +336,4 @@ if ($LASTEXITCODE -ne 0 -or $committedMessage -ne $Message) {
 Assert-HeadTree
 Assert-WorkingSkillsMatchHead
 Invoke-Git @('push','origin','main:main')
-& (Join-Path $PSScriptRoot 'install.ps1')
 Publish-Tag $Tag

@@ -4,7 +4,7 @@
 
 ## 用户偏好（更新于首次初始化）
 
-- **已全面采用 codex-short-drama-director v3.0 行为（2026-本会话）**：以 v3.0 技能（总控 short-drama-director + 三技能 + references 子库）为准；此前与 3.0 冲突的细则（canonical 输出、转场方式、单镜时长等）以 3.0 为准，详见 CODEX_KNOWLEDGE.md 与技能。以下旧偏好中与 3.0 不冲突的仍有效。
+- **已全面采用 codex-short-drama-director v4.3.15 行为（2026-本会话）**：以 v4.3.15 技能（总控 short-drama-director + 六技能 story-writing/script-analysis/assets/prompts/image-design + references 子库）为准；此前与 4.x 冲突的细则（canonical 输出、转场方式、单镜时长等）以 4.3.15 为准，详见 CODEX_KNOWLEDGE.md 与技能。以下旧偏好中与 4.3.15 不冲突的仍有效。
 - 默认视频生成工具：**Seedance 2.0/2.5（即梦）**
 - 默认画幅：竖屏 9:16（1080×1920）——**画幅由工具参数面板设置，提示词中不写画幅**（用户纠正，已生效）
 - 默认风格：电影感写实、短剧快节奏（前 3 秒钩子，每 5–10 秒一个信息点/反转）
@@ -34,12 +34,14 @@
 - 屏幕文字/字幕一律后期贴片，提示词不写文字（AI 必乱码）。
 - 「血泪」类极端面部效果改「泪水结冰晶」物理方案。
 - 女主爽剧注意给女主加「赢家姿态」微动作镜头，避免全片渣男视角。
-- 技能架构（2026-本会话起）：短剧生产拆为三技能——`short-drama-script-analysis`（剧本/人物）、`short-drama-assets`（资产）、`short-drama-prompts`（提示词）；原总技能已删。按工作台加载对应技能。
+- 技能架构（2026-本会话起）：短剧生产拆为六技能——总控 `short-drama-director` + `short-drama-script-analysis`（剧本/人物/下游交接）、`short-drama-story-writing`（故事化）、`short-drama-assets`（资产）、`short-drama-prompts`（分镜/提示词）、`short-drama-image-design`（制图/海报/角色视觉）+ 辅助 `read-office-docs`（文档读取）。按工作台加载对应技能。
 
 ## 记忆库结构（通用仓库：只存技能与规范）
 
-- `replicate/agent-preset/skills/` — 技能（总控 + 三技能 + references 子库 + read-office-docs）
+- `replicate/agent-preset/skills/` — 技能（总控 + 六技能 + references 子库 + read-office-docs）
 - `scripts/` — validate.ps1 / install.ps1 / sync.ps1
+- `VERSION` — 当前技能版本（4.3.15）
+- `docs/agents/` — domain / issue-tracker / triage-labels（仓库维护文档）
 - `CODEX_KNOWLEDGE.md` — 知识快照（Codex 直读）
 - `CODEX_AGENTS.md` — Codex 协作指引（与工作区 AGENTS.md 同步）
 - `prompt-templates.md` — 提示词模板（通用）

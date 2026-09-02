@@ -1,0 +1,4 @@
+interface:
+  display_name: "Short Drama Image Design"
+  short_description: "为短剧生成或编辑剧情图、宣传海报、角色与场景视觉成品"
+  default_prompt: "使用 $short-drama-image-design 读取当前项目并完成短剧制图任务。"

@@ -17,16 +17,32 @@ This repository stores reusable short-drama Codex skills only. Detailed creative
 - When the director explicitly authorizes automatic handling of a clearly defined class of equivalent follow-ups, apply later equivalent cases without asking again. Keep that standing authorization narrowly scoped and request confirmation for materially different rules.
 - Only confirmed reusable rules enter this repository. Local project facts never do.
 
-## 3.0 modular architecture
+## 4.1 modular architecture
 
 - `short-drama-director` owns only cross-stage routing, isolation, privacy, handoff, and update authorization.
-- The analysis, assets, and prompts skills remain independently usable secondary skills. Do not move their domain rules into the center skill.
+- The analysis, story-writing, assets, prompts, and image-design skills remain independently usable secondary skills. Do not move their domain rules into the center skill.
 - Within `short-drama-prompts`, every reusable rule has one owner listed in `references/maintenance/rule-index.md`. Update the smallest owning module and its affected check mapping.
+- Keep first-pass directing methods, delivery diagnosis, and evidence-triggered generation recovery separate. Recovery rules must not constrain first-pass shot design before an observable failure.
+- In image design, keep input-role authority, composition, spatial topology, series language, delivery checks, and evidence-triggered recovery in their smallest owning references. Image recovery must not constrain first-pass composition before an observable failure.
 - Templates define fields and layout, libraries offer optional methods, adapters contain tool-specific differences, and quality files define validation. Do not restate rule bodies in them.
-- Preserve 2.0 behavior unless the director explicitly confirms a functional change. Structural cleanup alone never authorizes a behavior change.
+- Preserve confirmed behavior unless the director explicitly confirms a functional change. Structural cleanup alone never authorizes a behavior change.
 
 ## Validation and sync
 
 - After skill changes, run `scripts/validate.ps1`, install through `scripts/install.ps1`, validate the installed copy, then use `scripts/sync.ps1 push` when a remote is configured.
 - Pull fast-forward only. Never force-push, rewrite remote history, or silently resolve concurrent conflicts.
 - A failed push must leave the local commit intact and be reported. Do not create empty commits.
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked in this repository's GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Use the default five-label triage vocabulary. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This repository uses a single-context domain-document layout. See `docs/agents/domain.md`.
